@@ -18,10 +18,13 @@ public class Paddle {
 	public void movePaddle(PaddleMoves pm){
 			switch(pm){
 			case UP:
-					p.setY(p.getY() + 10);
+					int y = p.getY() - 10;
+					p.setY(y);
+					//paddle.getP().setY(paddle.getP().getX()+10);
 					break;
 			case DOWN:
-					p.setY(p.getY() - 10);
+					int yy = p.getY() + 10;
+					p.setY(yy);
 					break;
 			default:
 				break;

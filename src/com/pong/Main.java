@@ -13,8 +13,8 @@ import javax.swing.SwingUtilities;
 public class Main extends JFrame {
 
 	public JPanel panel;
-	int WIDTH = 800;
-	int HEIGHT = 600;
+	int WIDTH = 816;
+	int HEIGHT = 639;
 
 	public Main(){
 		
@@ -27,8 +27,10 @@ public class Main extends JFrame {
 		setSize(WIDTH,HEIGHT);
 		this.setTitle("PONG");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setVisible(true);
 		
-		panel = new Plansza(WIDTH,HEIGHT);
+		panel = new Plansza((int)this.getContentPane().getSize().getWidth(),(int)this.getContentPane().getSize().getHeight());
+		//panel = new Plansza(WIDTH,HEIGHT);
 		this.add(panel);
 		
 	}
