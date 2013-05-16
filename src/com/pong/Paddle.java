@@ -5,7 +5,7 @@ public class Paddle {
 	private Point p;
 	private int width;
 	private int height;
-	public int PADDLE_WIDTH = 50;
+	public int PADDLE_WIDTH = 40;
 	public int PADDLE_HEIGHT = 100;
 	
 	
