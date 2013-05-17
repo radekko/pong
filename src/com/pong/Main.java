@@ -26,7 +26,7 @@ public class Main extends JFrame {
 	private void initialize(){
 		setSize(WIDTH,HEIGHT);
 		this.setTitle("PONG");
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		
 		panel = new Plansza(

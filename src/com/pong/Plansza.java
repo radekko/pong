@@ -1,6 +1,7 @@
 package com.pong;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -16,19 +17,20 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 	private Paddle leftPaddle;
 	private Paddle rightPaddle;
 	private boolean isPlay = false;
-	private boolean stopFlag = false;
+	private boolean isRightWin = true;
+	private ScoreBoard scoreBoard;
 	
-	/* Pilka*/
+	/* Pi³ka*/
 	private int x;
-	private int y = 0;
-	private int dx = 10;
-	private int dy = 20;
+	private int y;
+	private int dx;
+	private int dy;
 	private int r = 20;
 
 	public Plansza(int planszaWidth, int planszaHeight) {
 		this.planszaWidth = planszaWidth;
 		this.planszaHeight = planszaHeight;
-		this.x = Paddle.PADDLE_WIDTH;
+		this.scoreBoard = new ScoreBoard();
 		
 		initializePaddles();
 		
@@ -46,6 +48,12 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 	}
 	
 	private void startMovingBall(){
+		this.x = planszaWidth / 2;
+		this.y = 0;
+		this.dx = (isRightWin == true ? 10 : -10);
+		this.dy = 20;
+		
+		repaint();
 		Runnable r = this;
 		Thread ballThread = new Thread(r);
 		ballThread.start();
@@ -56,6 +64,7 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		
 		Graphics2D g2 = (Graphics2D) g;
 		drawObjects(g2);
+		drawScoreBoard(g2);
 	}
 	
 	private void drawObjects(Graphics2D g2){
@@ -81,7 +90,12 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		g2.draw(ballRect);
 	}
 
-
+	private void drawScoreBoard(Graphics2D g2) {
+		g2.setFont(new Font("Arial", Font.PLAIN, 40));
+		g2.setColor(Color.RED);
+		g2.drawString(
+				scoreBoard.getLeftScore().toString()+" - "+scoreBoard.getRightScore().toString(), 400, 50);
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -92,7 +106,7 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 				repaint();
 			}
 			break;
-		case KeyEvent.VK_S:
+		case KeyEvent.VK_D:
 			if (leftPaddle.getP().getY() < planszaHeight - Paddle.PADDLE_HEIGHT) {
 				leftPaddle.movePaddle(PaddleMoves.DOWN);
 				repaint();
@@ -124,7 +138,6 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 	@Override
 	public void run() {
 		
-	//	for(int i=0;i<50;i++) {
 			try {
 				//Thread.sleep(Long.valueOf(5000));
 				while(!Thread.currentThread().isInterrupted()) {
@@ -132,9 +145,8 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 					Thread.sleep(Long.valueOf(100));
 				}
 			} catch (InterruptedException e) {
-				//e.printStackTrace();
+				startMovingBall();
 			}
-		//}
 	}
 	
 	private void move(){
@@ -144,25 +156,37 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		x += dx;
 		y += dy;
 		
-		// lewa sciana
+		// lewa œciana
 		if(x == Paddle.PADDLE_WIDTH) {
-			if (y > leftPaddle.getP().getY() && y < leftPaddle.getP().getY() + Paddle.PADDLE_HEIGHT) 
-				System.out.println("punkt");
-			else
+			// odbicie
+			if (y >= leftPaddle.getP().getY() && y < leftPaddle.getP().getY() + Paddle.PADDLE_HEIGHT) {
 				dx = -dx;
-			//Thread.currentThread().interrupt();
+			}
+			// punkt
+			else {
+				isRightWin = true;
+				scoreBoard.add(Player.RIGHT);
+				Thread.currentThread().interrupt();
+			}
 		}
-		// prawa sciana
+		// prawa œciana
 		else if (x == planszaWidth - Paddle.PADDLE_WIDTH - r) {
-			if (y > rightPaddle.getP().getY() && y <= rightPaddle.getP().getY() + Paddle.PADDLE_HEIGHT) 
+			// odbicie
+			if (y >= rightPaddle.getP().getY() && y <= rightPaddle.getP().getY() + Paddle.PADDLE_HEIGHT){
 				dx = -dx;
-			else
-				System.out.println("punkt");
-			//Thread.currentThread().interrupt();
+			}
+			// punkt
+			else {
+				isRightWin = false;
+				scoreBoard.add(Player.LEFT);
+				Thread.currentThread().interrupt();
+			}
 		}
+		// góra
 		else if (y <= 0) {
 			dy = -dy;
 		}
+		//dó³
 		else if (y >= planszaHeight - r){
 			dy = -dy;
 		}

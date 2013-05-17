@@ -3,15 +3,11 @@ package com.pong;
 public class Paddle {
 
 	private Point p;
-	//private int width;
-	//private int height;
 	public static final int PADDLE_WIDTH = 20;
 	public static final int PADDLE_HEIGHT = 100;
 	
 	
-	public Paddle(int x, int y/*,int width, int height*/){
-		//this.width = width;
-		//this.height = height;
+	public Paddle(int x, int y){
 		p = new Point(x,y);
 	}
 	
@@ -37,22 +33,5 @@ public class Paddle {
 	public void setP(Point p) {
 		this.p = p;
 	}
-
-	/*public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}*/
-
 
 }
