@@ -29,7 +29,11 @@ public class Main extends JFrame {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
 		
-		panel = new Plansza((int)this.getContentPane().getSize().getWidth(),(int)this.getContentPane().getSize().getHeight());
+		panel = new Plansza(
+				(int)this.getContentPane().getSize().getWidth(),
+				(int)this.getContentPane().getSize().getHeight()/*,
+				WIDTH - (int)this.getContentPane().getSize().getWidth(),
+				HEIGHT - (int)this.getContentPane().getSize().getHeight()*/);
 		//panel = new Plansza(WIDTH,HEIGHT);
 		this.add(panel);
 		

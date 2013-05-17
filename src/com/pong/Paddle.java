@@ -3,27 +3,26 @@ package com.pong;
 public class Paddle {
 
 	private Point p;
-	private int width;
-	private int height;
-	public int PADDLE_WIDTH = 40;
-	public int PADDLE_HEIGHT = 100;
+	//private int width;
+	//private int height;
+	public static final int PADDLE_WIDTH = 20;
+	public static final int PADDLE_HEIGHT = 100;
 	
 	
-	public Paddle(int x, int y,int width, int height){
-		this.width = width;
-		this.height = height;
+	public Paddle(int x, int y/*,int width, int height*/){
+		//this.width = width;
+		//this.height = height;
 		p = new Point(x,y);
 	}
 	
 	public void movePaddle(PaddleMoves pm){
 			switch(pm){
 			case UP:
-					int y = p.getY() - 10;
+					int y = p.getY() - 20;
 					p.setY(y);
-					//paddle.getP().setY(paddle.getP().getX()+10);
 					break;
 			case DOWN:
-					int yy = p.getY() + 10;
+					int yy = p.getY() + 20;
 					p.setY(yy);
 					break;
 			default:
@@ -39,7 +38,7 @@ public class Paddle {
 		this.p = p;
 	}
 
-	public int getWidth() {
+	/*public int getWidth() {
 		return width;
 	}
 
@@ -53,7 +52,7 @@ public class Paddle {
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
+	}*/
 
 
 }
