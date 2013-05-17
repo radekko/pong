@@ -1,10 +1,4 @@
 package com.pong;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -31,10 +25,7 @@ public class Main extends JFrame {
 		
 		panel = new Plansza(
 				(int)this.getContentPane().getSize().getWidth(),
-				(int)this.getContentPane().getSize().getHeight()/*,
-				WIDTH - (int)this.getContentPane().getSize().getWidth(),
-				HEIGHT - (int)this.getContentPane().getSize().getHeight()*/);
-		//panel = new Plansza(WIDTH,HEIGHT);
+				(int)this.getContentPane().getSize().getHeight());
 		this.add(panel);
 		
 	}
