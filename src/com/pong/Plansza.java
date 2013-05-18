@@ -1,13 +1,16 @@
 package com.pong;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Plansza extends JPanel implements KeyListener, Runnable {
@@ -34,13 +37,14 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		this.setBackground(Color.GREEN);
 		
 		initializePaddles();
+	
 		
-		startMovingBall();
 		
 		this.setFocusable(true);
-		this.addKeyListener(this);
 		this.setVisible(true);
-		this.isPlay = true;
+		this.addKeyListener(this);
+		setBall();
+		
 	}
 
 	private void initializePaddles() {
@@ -48,7 +52,7 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		this.rightPaddle = new Paddle(planszaWidth - Paddle.PADDLE_WIDTH , 0);
 	}
 	
-	private void startMovingBall(){
+	private void setBall(){
 		this.x = planszaWidth / 2;
 		this.y = 0;
 		this.dx = (isRightWin == true ? 10 : -10);
@@ -58,6 +62,7 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		Runnable r = this;
 		Thread ballThread = new Thread(r);
 		ballThread.start();
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -139,19 +144,29 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 	@Override
 	public void run() {
 		
+		info();
+		
 			try {
 				while(!Thread.currentThread().isInterrupted()) {
 					move();
 					Thread.sleep(Long.valueOf(100));
 				}
 			} catch (InterruptedException e) {
-				startMovingBall();
+				setBall();
 			}
 	}
 	
+	private void info(){
+		if(!isPlay) {
+			JOptionPane.showMessageDialog(
+				null, "Sterowanie:\n Lewy:\n A - góra, D - dó³\n Prawy:\n Strza³ki", "Info", JOptionPane.INFORMATION_MESSAGE);
+			this.isPlay = true;
+		}
+	}
+	
 	private void move(){
-		if(!isPlay)
-			return;
+		//if(!isPlay)
+			//return;
 		
 		x += dx;
 		y += dy;
