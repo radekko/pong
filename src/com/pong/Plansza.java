@@ -1,20 +1,24 @@
 package com.pong;
 
+
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.pong.resource.ResourceLoader;
+
 public class Plansza extends JPanel implements KeyListener, Runnable {
 
+	private Image ballImage = ResourceLoader.getImage("myBall.png");
+	private Color backgroungColor = new Color(0,128,0);
 	private int planszaWidth;
 	private int planszaHeight;
 	private Paddle leftPaddle;
@@ -34,7 +38,7 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		this.planszaWidth = planszaWidth;
 		this.planszaHeight = planszaHeight;
 		this.scoreBoard = new ScoreBoard();
-		this.setBackground(Color.GREEN);
+		this.setBackground(backgroungColor);
 		
 		initializePaddles();
 	
@@ -45,6 +49,11 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		this.addKeyListener(this);
 		setBall();
 		
+	}
+	
+	@Override
+	public void addNotify(){
+		super.addNotify();
 	}
 
 	private void initializePaddles() {
@@ -84,7 +93,6 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 				.getX(), rightPaddle.getP().getY(), Paddle.PADDLE_WIDTH,
 				Paddle.PADDLE_HEIGHT);
 		
-		Rectangle2D ballRect = new Rectangle2D.Double(x, y, r, r);
 
 		g2.fill(leftRect);
 		g2.draw(leftRect);
@@ -92,8 +100,7 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 		g2.fill(rightRect);
 		g2.draw(rightRect);
 		
-		g2.fill(ballRect);
-		g2.draw(ballRect);
+		g2.drawImage(ballImage,x,y,null);
 	}
 
 	private void drawScoreBoard(Graphics2D g2) {
@@ -165,8 +172,6 @@ public class Plansza extends JPanel implements KeyListener, Runnable {
 	}
 	
 	private void move(){
-		//if(!isPlay)
-			//return;
 		
 		x += dx;
 		y += dy;
